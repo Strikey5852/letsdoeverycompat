@@ -2,6 +2,7 @@ package com.strikey.compat.module;
 
 import com.berksire.furniture.core.block.BenchBlock;
 import com.berksire.furniture.core.block.DeskBlock;
+import com.berksire.furniture.core.block.DeskChairBlock;
 import com.strikey.compat.LetsDoEveryCompat;
 import net.mehvahdjukaar.every_compat.api.RenderLayer;
 import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
@@ -20,6 +21,7 @@ public class LetsDoFurnitureModule extends EveryCompatModule {
 
     public final SimpleEntrySet<WoodType, BenchBlock> benches;
     public final SimpleEntrySet<WoodType, DeskBlock> desks;
+    public final SimpleEntrySet<WoodType, DeskChairBlock> deskChairs;
 
     public LetsDoFurnitureModule(String modId) {
         super(modId, "ldf", LetsDoEveryCompat.MODID);
@@ -53,5 +55,18 @@ public class LetsDoFurnitureModule extends EveryCompatModule {
                 .defaultRecipe()
                 .build();
         this.addEntry(desks);
+
+        // furniture:block/desk_chair_parts is a shared, wood-independent texture, so it is
+        // deliberately not declared: the models keep pointing at Furniture's own copy.
+        deskChairs = SimpleEntrySet.builder(WoodType.class, "desk_chair",
+                        getModBlock("oak_desk_chair", DeskChairBlock.class), () -> VanillaWoodTypes.OAK,
+                        w -> new DeskChairBlock(Utils.copyPropertySafe(w.planks)))
+                .addTexture(modRes("block/oak_desk_chair"))
+                .setRenderType(RenderLayer.CUTOUT)
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .setTab(tab)
+                .defaultRecipe()
+                .build();
+        this.addEntry(deskChairs);
     }
 }
