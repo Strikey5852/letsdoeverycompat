@@ -2,6 +2,7 @@ package com.strikey.compat;
 
 import com.mojang.logging.LogUtils;
 import com.strikey.compat.module.LetsDoFurnitureModule;
+import com.strikey.compat.module.LetsDoVineryModule;
 import net.mehvahdjukaar.every_compat.api.EveryCompatAPI;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -19,6 +20,9 @@ public class LetsDoEveryCompat {
         // one guard per Let's Do mod so they stay mix-and-match
         if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("furniture")) {
             EveryCompatAPI.registerOptionalModule("furniture", () -> LetsDoFurnitureModule.class);
+        }
+        if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("vinery")) {
+            EveryCompatAPI.registerOptionalModule("vinery", () -> LetsDoVineryModule.class);
         }
     }
 }

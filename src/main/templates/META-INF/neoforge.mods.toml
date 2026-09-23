@@ -110,6 +110,13 @@ Generates the wooden furniture pieces of the Let's Do series for every wood type
     ordering="AFTER"
     side="BOTH"
 
+[[dependencies.${mod_id}]]
+    modId="vinery"
+    type="optional"
+    versionRange="[1.5.4,)"
+    ordering="AFTER"
+    side="BOTH"
+
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
 # that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't
 # stop your mod loading on the server for example.
