@@ -1,6 +1,7 @@
 package com.strikey.compat.module;
 
 import com.berksire.furniture.core.block.BenchBlock;
+import com.berksire.furniture.core.block.DeskBlock;
 import com.strikey.compat.LetsDoEveryCompat;
 import net.mehvahdjukaar.every_compat.api.RenderLayer;
 import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
@@ -18,6 +19,7 @@ import java.util.function.Supplier;
 public class LetsDoFurnitureModule extends EveryCompatModule {
 
     public final SimpleEntrySet<WoodType, BenchBlock> benches;
+    public final SimpleEntrySet<WoodType, DeskBlock> desks;
 
     public LetsDoFurnitureModule(String modId) {
         super(modId, "ldf", LetsDoEveryCompat.MODID);
@@ -36,5 +38,20 @@ public class LetsDoFurnitureModule extends EveryCompatModule {
                 .defaultRecipe()
                 .build();
         this.addEntry(benches);
+
+        desks = SimpleEntrySet.builder(WoodType.class, "desk",
+                        getModBlock("oak_desk", DeskBlock.class), () -> VanillaWoodTypes.OAK,
+                        w -> new DeskBlock(Utils.copyPropertySafe(w.planks).pushReaction(PushReaction.IGNORE)))
+                .addTexture(modRes("block/oak_desk"))
+                .addTexture(modRes("block/oak_desk_support"))
+                .addTexture(modRes("block/oak_desk_connected_side"))
+                .addTexture(modRes("block/oak_desk_connected_middle"))
+                .addTexture(modRes("block/oak_cabinet_top"))
+                .setRenderType(RenderLayer.CUTOUT)
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .setTab(tab)
+                .defaultRecipe()
+                .build();
+        this.addEntry(desks);
     }
 }
