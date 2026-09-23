@@ -1,0 +1,9 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "com.strikey.compat.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "LatticeRendererMixin"
+  ]
+}

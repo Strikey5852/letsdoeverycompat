@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.satisfy.vinery.core.block.BigBottleStorageBlock;
 import net.satisfy.vinery.core.block.FourBottleStorageBlock;
+import net.satisfy.vinery.core.block.LatticeBlock;
 import net.satisfy.vinery.core.block.NineBottleStorageBlock;
 import net.satisfy.vinery.core.registry.EntityTypeRegistry;
 
@@ -29,6 +30,7 @@ public class LetsDoVineryModule extends EveryCompatModule {
     public final SimpleEntrySet<WoodType, FourBottleStorageBlock> wineRackSmall;
     public final SimpleEntrySet<WoodType, BigBottleStorageBlock> wineRackMid;
     public final SimpleEntrySet<WoodType, NineBottleStorageBlock> wineRackBig;
+    public final SimpleEntrySet<WoodType, LatticeBlock> lattices;
 
     public LetsDoVineryModule(String modId) {
         super(modId, "ldv", LetsDoEveryCompat.MODID);
@@ -76,5 +78,20 @@ public class LetsDoVineryModule extends EveryCompatModule {
                 .defaultRecipe()
                 .build();
         this.addEntry(wineRackMid);
+
+        // lattice is RenderShape.INVISIBLE - the be renderer draws it from a per-wood texture.
+        // a client mixin (LatticeRendererMixin) points our blocks at the generated textures.
+        lattices = SimpleEntrySet.builder(WoodType.class, "lattice",
+                        getModBlock("oak_lattice", LatticeBlock.class), () -> VanillaWoodTypes.OAK,
+                        w -> new LatticeBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F)
+                                .sound(SoundType.WOOD).noOcclusion()))
+                .addTextureM(modRes("block/lattice/oak_lattice"), maskRes("block/ldv/masks/oak_lattice_m"))
+                .setRenderType(RenderLayer.CUTOUT)
+                .addTile(EntityTypeRegistry.LATTICE)
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .setTab(tab)
+                .defaultRecipe()
+                .build();
+        this.addEntry(lattices);
     }
 }
