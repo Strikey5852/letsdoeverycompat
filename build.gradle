@@ -120,13 +120,15 @@ configurations {
 }
 
 dependencies {
-    // Compile against the Every Compat module API and Moonlight's wood types.
+    // everycomp module api + moonlight wood types
     compileOnly("net.mehvahdjukaar:everycomp-neoforge:${everycomp_version}:neoforge") { transitive = false }
     compileOnly("net.mehvahdjukaar:moonlight-neoforge:${moonlight_version}") { transitive = false }
-    // Base blocks we clone are the furniture mod's own oak pieces.
+    // the oak blocks we clone
     compileOnly("curse.maven:lets-do-furniture-1062363:${furniture_cf_file}") { transitive = false }
+    // furniture's sound fields are RegistrySupplier typed, architectury comes with it
+    compileOnly("dev.architectury:architectury-neoforge:${architectury_version}")
 
-    // Dev runs only - lets a local client actually load the mods. Never published.
+    // dev runs only, never published
     localRuntime("net.mehvahdjukaar:everycomp-neoforge:${everycomp_version}:neoforge") { transitive = false }
     localRuntime("net.mehvahdjukaar:moonlight-neoforge:${moonlight_version}") { transitive = false }
     localRuntime("curse.maven:lets-do-furniture-1062363:${furniture_cf_file}") { transitive = false }

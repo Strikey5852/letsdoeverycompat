@@ -16,7 +16,7 @@ public class LetsDoEveryCompat {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public LetsDoEveryCompat(IEventBus modEventBus, ModContainer modContainer) {
-        // One guarded registration per Let's Do mod so the series stays mix-and-match.
+        // one guard per Let's Do mod so they stay mix-and-match
         if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("furniture")) {
             EveryCompatAPI.registerOptionalModule("furniture", () -> LetsDoFurnitureModule.class);
         }
