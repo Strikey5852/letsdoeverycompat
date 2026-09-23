@@ -1,0 +1,24 @@
+package com.strikey.compat;
+
+import com.mojang.logging.LogUtils;
+import com.strikey.compat.module.LetsDoFurnitureModule;
+import net.mehvahdjukaar.every_compat.api.EveryCompatAPI;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.Mod;
+import org.slf4j.Logger;
+
+@Mod(LetsDoEveryCompat.MODID)
+public class LetsDoEveryCompat {
+
+    public static final String MODID = "letsdoeverycompat";
+    public static final Logger LOGGER = LogUtils.getLogger();
+
+    public LetsDoEveryCompat(IEventBus modEventBus, ModContainer modContainer) {
+        // One guarded registration per Let's Do mod so the series stays mix-and-match.
+        if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("furniture")) {
+            EveryCompatAPI.registerOptionalModule("furniture", () -> LetsDoFurnitureModule.class);
+        }
+    }
+}
