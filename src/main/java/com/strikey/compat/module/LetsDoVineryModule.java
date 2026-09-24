@@ -1,6 +1,7 @@
 package com.strikey.compat.module;
 
 import com.strikey.compat.LetsDoEveryCompat;
+import net.mehvahdjukaar.every_compat.api.PaletteStrategies;
 import net.mehvahdjukaar.every_compat.api.RenderLayer;
 import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
 import net.mehvahdjukaar.every_compat.modules.EveryCompatModule;
@@ -15,17 +16,22 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.PushReaction;
 import net.satisfy.vinery.core.block.BigBottleStorageBlock;
 import net.satisfy.vinery.core.block.BigTableBlock;
+import net.satisfy.vinery.core.block.CabinetBlock;
 import net.satisfy.vinery.core.block.ChairBlock;
+import net.satisfy.vinery.core.block.DarkCherryBarrelBlock;
 import net.satisfy.vinery.core.block.FourBottleStorageBlock;
 import net.satisfy.vinery.core.block.LatticeBlock;
 import net.satisfy.vinery.core.block.NineBottleStorageBlock;
+import net.satisfy.vinery.core.block.ShelfBlock;
 import net.satisfy.vinery.core.block.TableBlock;
 import net.satisfy.vinery.core.registry.EntityTypeRegistry;
+import net.satisfy.vinery.core.registry.SoundEventRegistry;
 
 import java.util.function.Supplier;
 
@@ -43,6 +49,10 @@ public class LetsDoVineryModule extends EveryCompatModule {
     public final SimpleEntrySet<WoodType, ChairBlock> chairs;
     public final SimpleEntrySet<WoodType, TableBlock> tables;
     public final SimpleEntrySet<WoodType, BigTableBlock> bigTables;
+    public final SimpleEntrySet<WoodType, CabinetBlock> cabinets;
+    public final SimpleEntrySet<WoodType, CabinetBlock> drawers;
+    public final SimpleEntrySet<WoodType, ShelfBlock> shelves;
+    public final SimpleEntrySet<WoodType, DarkCherryBarrelBlock> barrels;
 
     public LetsDoVineryModule(String modId) {
         super(modId, "ldv", LetsDoEveryCompat.MODID);
@@ -55,8 +65,10 @@ public class LetsDoVineryModule extends EveryCompatModule {
                         getModBlock("oak_wine_rack_small", FourBottleStorageBlock.class), () -> VanillaWoodTypes.OAK,
                         w -> new FourBottleStorageBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F)
                                 .sound(SoundType.WOOD).noOcclusion()))
-                .addTexture(modRes("block/oak_cabinet_side"))
+                // rack sides use their own name, else they'd overwrite vinery's cabinet side
+                .addTextureC(modRes("block/oak_cabinet_side"), "block/oak_wine_rack_side")
                 .addTexture(modRes("block/oak_cabinet_top"))
+                .addModelTransform(t -> t.replaceString("cabinet_side", "wine_rack_side"))
                 .addTile(EntityTypeRegistry.STORAGE_ENTITY)
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .setTab(tab)
@@ -68,8 +80,9 @@ public class LetsDoVineryModule extends EveryCompatModule {
                         getModBlock("oak_wine_rack_big", NineBottleStorageBlock.class), () -> VanillaWoodTypes.OAK,
                         w -> new NineBottleStorageBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F)
                                 .sound(SoundType.WOOD).noOcclusion()))
-                .addTexture(modRes("block/oak_cabinet_side"))
+                .addTextureC(modRes("block/oak_cabinet_side"), "block/oak_wine_rack_side")
                 .addTexture(modRes("block/oak_cabinet_top"))
+                .addModelTransform(t -> t.replaceString("cabinet_side", "wine_rack_side"))
                 .addTile(EntityTypeRegistry.STORAGE_ENTITY)
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .setTab(tab)
@@ -82,9 +95,12 @@ public class LetsDoVineryModule extends EveryCompatModule {
                         getModBlock("oak_wine_rack_mid", BigBottleStorageBlock.class), () -> VanillaWoodTypes.OAK,
                         w -> new BigBottleStorageBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F)
                                 .sound(SoundType.WOOD).noOcclusion()))
-                .addTextureM(modRes("block/oak_cabinet_front"), maskRes("block/ldv/masks/oak_cabinet_front_m"))
-                .addTexture(modRes("block/oak_cabinet_side"))
+                // the rack door is its own art, so it keeps its own front name
+                .addTextureMC(modRes("block/oak_cabinet_front"), maskRes("block/ldv/masks/oak_cabinet_front_m"),
+                        PaletteStrategies.MAIN_CHILD, "block/oak_wine_rack_front")
+                .addTextureC(modRes("block/oak_cabinet_side"), "block/oak_wine_rack_side")
                 .addTexture(modRes("block/oak_cabinet_top"))
+                .addModelTransform(t -> t.replaceString("cabinet_side", "wine_rack_side").replaceString("cabinet_front", "wine_rack_front"))
                 .setRenderType(RenderLayer.CUTOUT)
                 .addTile(EntityTypeRegistry.STORAGE_ENTITY)
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
@@ -151,6 +167,66 @@ public class LetsDoVineryModule extends EveryCompatModule {
                 .defaultRecipe()
                 .build();
         this.addEntry(bigTables);
+
+        // storage blocks with a shared BE. handles/glass are not wood, masked to keep their base colour
+        cabinets = SimpleEntrySet.builder(WoodType.class, "cabinet",
+                        getModBlock("dark_cherry_cabinet", CabinetBlock.class), darkCherry,
+                        w -> new CabinetBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD),
+                                SoundEventRegistry.CABINET_OPEN.get(), SoundEventRegistry.CABINET_CLOSE.get()))
+                .addTextureM(modRes("block/dark_cherry_cabinet_front"), maskRes("block/ldv/masks/dark_cherry_cabinet_front_m"))
+                .addTextureM(modRes("block/dark_cherry_cabinet_front_open"), maskRes("block/ldv/masks/dark_cherry_cabinet_front_open_m"))
+                .addTexture(modRes("block/dark_cherry_cabinet_side"))
+                .addTexture(modRes("block/dark_cherry_drawer_top"))
+                .addTile(EntityTypeRegistry.CABINET_BLOCK_ENTITY)
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .setTab(tab)
+                .defaultRecipe()
+                .build();
+        this.addEntry(cabinets);
+
+        // the drawer is the same cabinet block only with different open/close sounds
+        drawers = SimpleEntrySet.builder(WoodType.class, "drawer",
+                        getModBlock("dark_cherry_drawer", CabinetBlock.class), darkCherry,
+                        w -> new CabinetBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD),
+                                SoundEventRegistry.DRAWER_OPEN.get(), SoundEventRegistry.DRAWER_CLOSE.get()))
+                .addTextureM(modRes("block/dark_cherry_drawer_front"), maskRes("block/ldv/masks/dark_cherry_drawer_front_m"))
+                .addTextureM(modRes("block/dark_cherry_cabinet_front_open"), maskRes("block/ldv/masks/dark_cherry_cabinet_front_open_m"))
+                .addTexture(modRes("block/dark_cherry_drawer_side"))
+                .addTexture(modRes("block/dark_cherry_drawer_top"))
+                .addTile(EntityTypeRegistry.CABINET_BLOCK_ENTITY)
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .setTab(tab)
+                .defaultRecipe()
+                .build();
+        this.addEntry(drawers);
+
+        // shelf shares the racks' storage BE; its item sprite is item/generated so it gets its own texture
+        shelves = SimpleEntrySet.builder(WoodType.class, "shelf",
+                        getModBlock("dark_cherry_shelf", ShelfBlock.class), darkCherry,
+                        w -> new ShelfBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD).noOcclusion()))
+                .addTexture(modRes("block/dark_cherry_drawer_top"))
+                .addTextureM(modRes("item/dark_cherry_shelf"), maskRes("item/ldv/masks/dark_cherry_shelf_m"))
+                .addTile(EntityTypeRegistry.STORAGE_ENTITY)
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .setTab(tab)
+                .defaultRecipe()
+                .build();
+        this.addEntry(shelves);
+
+        // barrel copies vanilla barrel block properties; the iron bands are masked
+        barrels = SimpleEntrySet.builder(WoodType.class, "barrel",
+                        getModBlock("dark_cherry_barrel", DarkCherryBarrelBlock.class), darkCherry,
+                        w -> new DarkCherryBarrelBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL)))
+                .addTextureM(modRes("block/dark_cherry_barrel_top"), maskRes("block/ldv/masks/dark_cherry_barrel_top_m"))
+                .addTexture(modRes("block/dark_cherry_barrel_top_open"))
+                .addTexture(modRes("block/dark_cherry_cabinet_side"))
+                .addTexture(modRes("block/dark_cherry_drawer_top"))
+                .addTile(EntityTypeRegistry.DARK_CHERRY_BARREL_ENTITY)
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .setTab(tab)
+                .defaultRecipe()
+                .build();
+        this.addEntry(barrels);
     }
 
     // ec skips vanilla woods assuming the mod ships them itself. vinery only has dark_cherry furniture

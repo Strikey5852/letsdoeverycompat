@@ -18,11 +18,11 @@ public class LetsDoEveryCompat {
 
     public LetsDoEveryCompat(IEventBus modEventBus, ModContainer modContainer) {
         // one guard per Let's Do mod so they stay mix-and-match
-        if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("furniture")) {
-            EveryCompatAPI.registerOptionalModule("furniture", () -> LetsDoFurnitureModule.class);
-        }
         if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("vinery")) {
             EveryCompatAPI.registerOptionalModule("vinery", () -> LetsDoVineryModule.class);
+        }
+        if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("furniture")) {
+            EveryCompatAPI.registerOptionalModule("furniture", () -> LetsDoFurnitureModule.class);
         }
     }
 }
