@@ -17,9 +17,12 @@ import net.mehvahdjukaar.every_compat.api.RenderLayer;
 import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
 import net.mehvahdjukaar.every_compat.api.TextureInfo;
 import net.mehvahdjukaar.every_compat.modules.EveryCompatModule;
+import net.mehvahdjukaar.moonlight.api.set.BlockType;
 import net.mehvahdjukaar.moonlight.api.set.wood.VanillaWoodTypes;
 import net.mehvahdjukaar.moonlight.api.set.wood.WoodType;
 import net.mehvahdjukaar.moonlight.api.util.Utils;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -213,5 +216,21 @@ public class LetsDoFurnitureModule extends EveryCompatModule {
                 .defaultRecipe()
                 .build();
         this.addEntry(wardrobes);
+    }
+
+    // ec skips vanilla woods it assumes the mod ships. furniture ships 8 of the 11, so the rest get cloned
+    @Override
+    public boolean isEntryAlreadyRegistered(String entrySetId, ResourceLocation blockId, BlockType blockType, Registry<?> registry) {
+        if (blockType.isVanilla() && !registry.containsKey(blockId) && !furnitureHasBlock(blockId)) {
+            return false;
+        }
+        return super.isEntryAlreadyRegistered(entrySetId, blockId, blockType, registry);
+    }
+
+    // entry names are <wood>_<piece>, same as furniture's own oak_ blocks
+    private static boolean furnitureHasBlock(ResourceLocation blockId) {
+        String path = blockId.getPath();
+        String blockName = path.substring(path.lastIndexOf('/') + 1);
+        return BuiltInRegistries.BLOCK.containsKey(ResourceLocation.fromNamespaceAndPath("furniture", blockName));
     }
 }

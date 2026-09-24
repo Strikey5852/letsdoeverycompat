@@ -39,8 +39,10 @@ run/
 repo/
 !**/src/**/repo/
 
-### Vendored source & local notes ###
+### Vendored source ###
 reference/
 libs/
-.local/
 tools/
+
+### Local notes ###
+NOTES.md
