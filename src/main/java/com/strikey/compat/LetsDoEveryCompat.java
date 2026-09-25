@@ -1,6 +1,7 @@
 package com.strikey.compat;
 
 import com.mojang.logging.LogUtils;
+import com.strikey.compat.module.LetsDoBeachpartyModule;
 import com.strikey.compat.module.LetsDoFurnitureModule;
 import com.strikey.compat.module.LetsDoVineryModule;
 import net.mehvahdjukaar.every_compat.api.EveryCompatAPI;
@@ -23,6 +24,9 @@ public class LetsDoEveryCompat {
         }
         if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("furniture")) {
             EveryCompatAPI.registerOptionalModule("furniture", () -> LetsDoFurnitureModule.class);
+        }
+        if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("beachparty")) {
+            EveryCompatAPI.registerOptionalModule("beachparty", () -> LetsDoBeachpartyModule.class);
         }
     }
 }
