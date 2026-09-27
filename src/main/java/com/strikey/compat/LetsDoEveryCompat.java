@@ -19,14 +19,16 @@ public class LetsDoEveryCompat {
 
     public LetsDoEveryCompat(IEventBus modEventBus, ModContainer modContainer) {
         // one guard per Let's Do mod so they stay mix-and-match
+        // order matters: an earlier module with the same piece name adopts the wood's <wood>_<piece>
+        // child, so the later one loses its own claim and generates nothing
         if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("vinery")) {
             EveryCompatAPI.registerOptionalModule("vinery", () -> LetsDoVineryModule.class);
         }
-        if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("furniture")) {
-            EveryCompatAPI.registerOptionalModule("furniture", () -> LetsDoFurnitureModule.class);
-        }
         if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("beachparty")) {
             EveryCompatAPI.registerOptionalModule("beachparty", () -> LetsDoBeachpartyModule.class);
+        }
+        if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("furniture")) {
+            EveryCompatAPI.registerOptionalModule("furniture", () -> LetsDoFurnitureModule.class);
         }
     }
 }
