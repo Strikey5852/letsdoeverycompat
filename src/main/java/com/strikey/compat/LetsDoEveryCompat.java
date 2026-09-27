@@ -2,6 +2,7 @@ package com.strikey.compat;
 
 import com.mojang.logging.LogUtils;
 import com.strikey.compat.module.LetsDoBeachpartyModule;
+import com.strikey.compat.module.LetsDoCandlelightModule;
 import com.strikey.compat.module.LetsDoFurnitureModule;
 import com.strikey.compat.module.LetsDoVineryModule;
 import net.mehvahdjukaar.every_compat.api.EveryCompatAPI;
@@ -19,8 +20,6 @@ public class LetsDoEveryCompat {
 
     public LetsDoEveryCompat(IEventBus modEventBus, ModContainer modContainer) {
         // one guard per Let's Do mod so they stay mix-and-match
-        // order matters: an earlier module with the same piece name adopts the wood's <wood>_<piece>
-        // child, so the later one loses its own claim and generates nothing
         if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("vinery")) {
             EveryCompatAPI.registerOptionalModule("vinery", () -> LetsDoVineryModule.class);
         }
@@ -29,6 +28,9 @@ public class LetsDoEveryCompat {
         }
         if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("furniture")) {
             EveryCompatAPI.registerOptionalModule("furniture", () -> LetsDoFurnitureModule.class);
+        }
+        if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("candlelight")) {
+            EveryCompatAPI.registerOptionalModule("candlelight", () -> LetsDoCandlelightModule.class);
         }
     }
 }
