@@ -29,9 +29,6 @@ sourceSets.main.resources {
 repositories {
     // Every Compat + Moonlight Lib
     maven { url = "https://registry.somethingcatchy.net/repository/maven-releases/" }
-    // [Let's Do] Furniture
-    maven { url = "https://cursemaven.com" }
-    // [Let's Do] Vinery + Beachparty
     maven { url = "https://api.modrinth.com/maven" }
     maven { url = "https://maven.architectury.dev" }
     // Curios (dev runtime for beachparty's hats)
@@ -124,35 +121,28 @@ configurations {
 }
 
 dependencies {
-    // everycomp module api + moonlight wood types
     compileOnly("net.mehvahdjukaar:everycomp-neoforge:${everycomp_version}:neoforge") { transitive = false }
     compileOnly("net.mehvahdjukaar:moonlight-neoforge:${moonlight_version}") { transitive = false }
-    // the oak blocks we clone
-    compileOnly("curse.maven:lets-do-furniture-1062363:${furniture_cf_file}") { transitive = false }
-    // vinery's per wood pieces we clone
+    compileOnly("maven.modrinth:lets-do-furniture:${furniture_version}") { transitive = false }
     compileOnly("maven.modrinth:lets-do-vinery:${vinery_version}") { transitive = false }
-    // beachparty's palm furniture; modrinth maven routes by project id
-    compileOnly("maven.modrinth:GyKzAh3l:${beachparty_version}") { transitive = false }
-    // candlelight is the other furniture mod we clone from, its chair/table classes are farm & charm's
-    compileOnly("maven.modrinth:qwbArkQk:${candlelight_version}") { transitive = false }
-    compileOnly("maven.modrinth:HJetCzWo:${farmcharm_version}") { transitive = false }
-    // meadow's pine cheese rack and wall cabinet
-    compileOnly("maven.modrinth:ra7o6Sl7:${meadow_version}") { transitive = false }
-    // hearth & timber's vanilla-wood pieces; it self-comps palm/pine/dark_cherry/arolla_pine
-    compileOnly("maven.modrinth:paO4gjmE:${hearth_and_timber_version}") { transitive = false }
+    compileOnly("maven.modrinth:lets-do-beachparty:${beachparty_version}") { transitive = false }
+    compileOnly("maven.modrinth:lets-do-candlelight-farmcharm-compat:${candlelight_version}") { transitive = false }
+    compileOnly("maven.modrinth:lets-do-farm-charm:${farmcharm_version}") { transitive = false }
+    compileOnly("maven.modrinth:lets-do-meadow:${meadow_version}") { transitive = false }
+    compileOnly("maven.modrinth:lets-do-hearth-timber:${hearth_and_timber_version}") { transitive = false }
     // furniture's sound fields are RegistrySupplier typed, architectury comes with it
     compileOnly("dev.architectury:architectury-neoforge:${architectury_version}")
 
     // dev runs only, never published
     localRuntime("net.mehvahdjukaar:everycomp-neoforge:${everycomp_version}:neoforge") { transitive = false }
     localRuntime("net.mehvahdjukaar:moonlight-neoforge:${moonlight_version}") { transitive = false }
-    localRuntime("curse.maven:lets-do-furniture-1062363:${furniture_cf_file}") { transitive = false }
+    localRuntime("maven.modrinth:lets-do-furniture:${furniture_version}") { transitive = false }
     localRuntime("maven.modrinth:lets-do-vinery:${vinery_version}") { transitive = false }
-    localRuntime("maven.modrinth:GyKzAh3l:${beachparty_version}") { transitive = false }
-    localRuntime("maven.modrinth:qwbArkQk:${candlelight_version}") { transitive = false }
-    localRuntime("maven.modrinth:HJetCzWo:${farmcharm_version}") { transitive = false }
-    localRuntime("maven.modrinth:ra7o6Sl7:${meadow_version}") { transitive = false }
-    localRuntime("maven.modrinth:paO4gjmE:${hearth_and_timber_version}") { transitive = false }
+    localRuntime("maven.modrinth:lets-do-beachparty:${beachparty_version}") { transitive = false }
+    localRuntime("maven.modrinth:lets-do-candlelight-farmcharm-compat:${candlelight_version}") { transitive = false }
+    localRuntime("maven.modrinth:lets-do-farm-charm:${farmcharm_version}") { transitive = false }
+    localRuntime("maven.modrinth:lets-do-meadow:${meadow_version}") { transitive = false }
+    localRuntime("maven.modrinth:lets-do-hearth-timber:${hearth_and_timber_version}") { transitive = false }
     // beachparty's hats need Curios at runtime in dev; not shipped, just for local runs
     localRuntime("top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1")
     localRuntime("dev.architectury:architectury-neoforge:${architectury_version}")
