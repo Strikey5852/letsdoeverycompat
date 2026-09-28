@@ -125,6 +125,13 @@ config="${mod_id}.mixins.json"
     ordering="AFTER"
     side="BOTH"
 
+[[dependencies.${mod_id}]]
+    modId="meadow"
+    type="optional"
+    versionRange="[1.4.9,)"
+    ordering="AFTER"
+    side="BOTH"
+
 # Candlelight is the other furniture mod we clone from; Farm & Charm carries its chair/table base classes
 [[dependencies.${mod_id}]]
     modId="candlelight"
