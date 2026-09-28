@@ -21,6 +21,11 @@ public class LetsDoEveryCompat {
 
     public LetsDoEveryCompat(IEventBus modEventBus, ModContainer modContainer) {
         // one guard per Let's Do mod so they stay mix-and-match
+        // meadow goes first: its bench shares the piece name with furniture's, and the pine bench
+        // has to stay meadow's child or the whole bench entry's assets get skipped
+        if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("meadow")) {
+            EveryCompatAPI.registerOptionalModule("meadow", () -> LetsDoMeadowModule.class);
+        }
         if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("vinery")) {
             EveryCompatAPI.registerOptionalModule("vinery", () -> LetsDoVineryModule.class);
         }
@@ -32,9 +37,6 @@ public class LetsDoEveryCompat {
         }
         if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("candlelight")) {
             EveryCompatAPI.registerOptionalModule("candlelight", () -> LetsDoCandlelightModule.class);
-        }
-        if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("meadow")) {
-            EveryCompatAPI.registerOptionalModule("meadow", () -> LetsDoMeadowModule.class);
         }
     }
 }

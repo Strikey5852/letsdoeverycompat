@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.fml.ModList;
+import net.satisfy.meadow.core.block.BenchBlock;
 import net.satisfy.meadow.core.block.CabinetBlock;
 import net.satisfy.meadow.core.block.CheeseRackBlock;
 import net.satisfy.meadow.core.registry.EntityTypeRegistry;
@@ -37,6 +38,7 @@ public class LetsDoMeadowModule extends EveryCompatModule {
     }
 
     public final SimpleEntrySet<WoodType, CheeseRackBlock> cheeseRacks;
+    public final SimpleEntrySet<WoodType, BenchBlock> benches;
     public final SimpleEntrySet<WoodType, CabinetBlock> wallCabinets;
 
     public LetsDoMeadowModule(String modId) {
@@ -64,6 +66,19 @@ public class LetsDoMeadowModule extends EveryCompatModule {
                 .defaultRecipe()
                 .build();
         this.addEntry(cheeseRacks);
+
+        // the bench is log art, and meadow doesn't cut it out like its tables/chairs
+        benches = SimpleEntrySet.builder(WoodType.class, "bench",
+                        getModBlock("pine_bench", BenchBlock.class), pine,
+                        w -> new BenchBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD)))
+                .addTexture(modRes("block/pine_log_side"))
+                .addTexture(modRes("block/pine_log_top"))
+                .addTexture(modRes("block/stripped_pine_log_side"))
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .setTab(tab)
+                .defaultRecipe()
+                .build();
+        this.addEntry(benches);
 
         wallCabinets = SimpleEntrySet.builder(WoodType.class, "wall_cabinet",
                         getModBlock("pine_wall_cabinet", CabinetBlock.class), pine,
