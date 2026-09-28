@@ -1,6 +1,7 @@
 package com.strikey.compat.module;
 
 import com.strikey.compat.LetsDoEveryCompat;
+import net.mehvahdjukaar.every_compat.api.RenderLayer;
 import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
 import net.mehvahdjukaar.every_compat.modules.EveryCompatModule;
 import net.mehvahdjukaar.moonlight.api.set.BlockType;
@@ -14,15 +15,18 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.satisfy.hearth_and_timber.core.block.PillarBlock;
 import net.satisfy.hearth_and_timber.core.block.RailingBlock;
 import net.satisfy.hearth_and_timber.core.block.SupportBlock;
+import net.satisfy.hearth_and_timber.core.block.WindowBlock;
+import net.satisfy.hearth_and_timber.core.block.WindowCasingBlock;
 import net.satisfy.hearth_and_timber.core.block.WoodenBoardBlock;
+import net.satisfy.hearth_and_timber.core.registry.EntityTypeRegistry;
 
 import java.util.function.Supplier;
 
@@ -36,6 +40,9 @@ public class LetsDoHearthAndTimberModule extends EveryCompatModule {
     public final SimpleEntrySet<WoodType, SupportBlock> supports;
     public final SimpleEntrySet<WoodType, PillarBlock> pillars;
     public final SimpleEntrySet<WoodType, RailingBlock> railings;
+    public final SimpleEntrySet<WoodType, WindowCasingBlock> windowCasings;
+    public final SimpleEntrySet<WoodType, Block> windows;
+    public final SimpleEntrySet<WoodType, WindowBlock> windowPanes;
 
     public LetsDoHearthAndTimberModule(String modId) {
         super(modId, "ldh", LetsDoEveryCompat.MODID);
@@ -129,16 +136,67 @@ public class LetsDoHearthAndTimberModule extends EveryCompatModule {
                 .defaultRecipe()
                 .build();
         this.addEntry(railings);
+
+        // the glass is painted cyan, so it has to be masked to keep its shade across woods;
+        // only the pane-art files carry glass, the top/casing are plain wood
+        windowCasings = SimpleEntrySet.builder(WoodType.class, "window_casing",
+                        getModBlock("oak_window_casing", WindowCasingBlock.class), oak,
+                        w -> new WindowCasingBlock(Utils.copyPropertySafe(w.planks).noOcclusion()))
+                .addTexture(modRes("block/oak_window_casing"))
+                .addTile(EntityTypeRegistry.WINDOW_CASING_BLOCK_ENTITY)
+                .setRenderType(RenderLayer.CUTOUT)
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .setTab(tab)
+                .defaultRecipe()
+                .build();
+        this.addEntry(windowCasings);
+
+        // window is a solid glass-copy block that wears the pane art as a face
+        windows = SimpleEntrySet.builder(WoodType.class, "window",
+                        getModBlock("oak_window", Block.class), oak,
+                        w -> new Block(Utils.copyPropertySafe(Blocks.GLASS)))
+                .addTextureM(modRes("block/oak_window_pane"), maskRes("block/ldh/masks/oak_window_pane_m"))
+                .addTexture(modRes("block/oak_window_top"))
+                .setRenderType(RenderLayer.CUTOUT)
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .setTab(tab)
+                .defaultRecipe()
+                .build();
+        this.addEntry(windows);
+
+        windowPanes = SimpleEntrySet.builder(WoodType.class, "window_pane",
+                        getModBlock("oak_window_pane", WindowBlock.class), oak,
+                        w -> new WindowBlock(Utils.copyPropertySafe(Blocks.GLASS_PANE).sound(SoundType.GLASS)))
+                .addTextureM(modRes("block/oak_window_pane"), maskRes("block/ldh/masks/oak_window_pane_m"))
+                .addTextureM(modRes("block/oak_window_pane_top"), maskRes("block/ldh/masks/oak_window_pane_top_m"))
+                .addTextureM(modRes("block/oak_window_pane_bottom"), maskRes("block/ldh/masks/oak_window_pane_bottom_m"))
+                .addTextureM(modRes("block/oak_window_pane_middle"), maskRes("block/ldh/masks/oak_window_pane_middle_m"))
+                .addTexture(modRes("block/oak_window_pane_side"))
+                .setRenderType(RenderLayer.CUTOUT)
+                .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
+                .setTab(tab)
+                .defaultRecipe()
+                .build();
+        this.addEntry(windowPanes);
+    }
+
+    // masks sit in our jar, so not modRes()
+    private static ResourceLocation maskRes(String path) {
+        return ResourceLocation.fromNamespaceAndPath(LetsDoEveryCompat.MODID, path);
     }
 
     // ec skips vanilla woods assuming the mod ships them itself. hearth ships 9 of 12
     @Override
     public boolean isEntryAlreadyRegistered(String entrySetId, ResourceLocation blockId, BlockType blockType, Registry<?> registry) {
+        // beachparty palm already ships glass (palm_glass / palm_glass_pane), the window is the same thing
+        if (blockType.getNamespace().equals("beachparty") && blockType.getTypeName().equals("palm")
+                && (entrySetId.endsWith(":window") || entrySetId.endsWith(":window_pane"))) {
+            return true;
+        }
         if (blockType.isVanilla() && !registry.containsKey(blockId) && !htHasBlock(blockId)) {
             return false;
         }
-        boolean r = super.isEntryAlreadyRegistered(entrySetId, blockId, blockType, registry);
-        return r;
+        return super.isEntryAlreadyRegistered(entrySetId, blockId, blockType, registry);
     }
 
     // entry names are <wood>_<piece>, same as hearth's own oak_ blocks
