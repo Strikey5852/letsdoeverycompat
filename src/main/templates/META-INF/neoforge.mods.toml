@@ -140,6 +140,14 @@ config="${mod_id}.mixins.json"
     ordering="AFTER"
     side="BOTH"
 
+# Hearth & Timber ships its own 9 vanilla woods and self-comps our modded woods; we fill the gaps
+[[dependencies.${mod_id}]]
+    modId="hearth_and_timber"
+    type="optional"
+    versionRange="[1.0.4,)"
+    ordering="AFTER"
+    side="BOTH"
+
 [[dependencies.${mod_id}]]
     modId="farm_and_charm"
     type="optional"

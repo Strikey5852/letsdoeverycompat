@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.strikey.compat.module.LetsDoBeachpartyModule;
 import com.strikey.compat.module.LetsDoCandlelightModule;
 import com.strikey.compat.module.LetsDoFurnitureModule;
+import com.strikey.compat.module.LetsDoHearthAndTimberModule;
 import com.strikey.compat.module.LetsDoMeadowModule;
 import com.strikey.compat.module.LetsDoVineryModule;
 import net.mehvahdjukaar.every_compat.api.EveryCompatAPI;
@@ -37,6 +38,9 @@ public class LetsDoEveryCompat {
         }
         if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("candlelight")) {
             EveryCompatAPI.registerOptionalModule("candlelight", () -> LetsDoCandlelightModule.class);
+        }
+        if (ModList.get().isLoaded("everycomp") && ModList.get().isLoaded("hearth_and_timber")) {
+            EveryCompatAPI.registerOptionalModule("hearth_and_timber", () -> LetsDoHearthAndTimberModule.class);
         }
     }
 }

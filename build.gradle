@@ -138,6 +138,8 @@ dependencies {
     compileOnly("maven.modrinth:HJetCzWo:${farmcharm_version}") { transitive = false }
     // meadow's pine cheese rack and wall cabinet
     compileOnly("maven.modrinth:ra7o6Sl7:${meadow_version}") { transitive = false }
+    // hearth & timber's vanilla-wood pieces; it self-comps palm/pine/dark_cherry/arolla_pine
+    compileOnly("maven.modrinth:paO4gjmE:${hearth_and_timber_version}") { transitive = false }
     // furniture's sound fields are RegistrySupplier typed, architectury comes with it
     compileOnly("dev.architectury:architectury-neoforge:${architectury_version}")
 
@@ -150,6 +152,7 @@ dependencies {
     localRuntime("maven.modrinth:qwbArkQk:${candlelight_version}") { transitive = false }
     localRuntime("maven.modrinth:HJetCzWo:${farmcharm_version}") { transitive = false }
     localRuntime("maven.modrinth:ra7o6Sl7:${meadow_version}") { transitive = false }
+    localRuntime("maven.modrinth:paO4gjmE:${hearth_and_timber_version}") { transitive = false }
     // beachparty's hats need Curios at runtime in dev; not shipped, just for local runs
     localRuntime("top.theillusivec4.curios:curios-neoforge:9.5.1+1.21.1")
     localRuntime("dev.architectury:architectury-neoforge:${architectury_version}")
