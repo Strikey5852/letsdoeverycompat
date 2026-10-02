@@ -1,0 +1,103 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "GPL-3.0-only"
+
+[[mods]]
+modId = "letsdoeverycompat"
+version = "${version}"
+displayName = "[Let's Do] Every Compat"
+authors = "strikey"
+description = '''
+Brings the furniture and decorative blocks of the Let's Do Collection into every wood type in the pack.
+'''
+
+[[dependencies.letsdoeverycompat]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.letsdoeverycompat]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.letsdoeverycompat]]
+modId = "architectury"
+type = "required"
+versionRange = "[13.0.11,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# Every Compat hosts the module API
+[[dependencies.letsdoeverycompat]]
+modId = "everycomp"
+type = "required"
+versionRange = "[1.21-2.11.52,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# Moonlight lib provides the wood type registry
+[[dependencies.letsdoeverycompat]]
+modId = "moonlight"
+type = "required"
+versionRange = "[1.21.1-3.6.8,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# Optional: any subset of the Let's Do series may be installed
+[[dependencies.letsdoeverycompat]]
+modId = "furniture"
+type = "optional"
+versionRange = "[1.1.6,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.letsdoeverycompat]]
+modId = "vinery"
+type = "optional"
+versionRange = "[1.5.4,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.letsdoeverycompat]]
+modId = "beachparty"
+type = "optional"
+versionRange = "[2.1.5,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.letsdoeverycompat]]
+modId = "meadow"
+type = "optional"
+versionRange = "[1.4.9,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# Candlelight is the other furniture mod we clone from; Farm & Charm carries its chair/table base classes
+[[dependencies.letsdoeverycompat]]
+modId = "candlelight"
+type = "optional"
+versionRange = "[2.1.13,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.letsdoeverycompat]]
+modId = "hearth_and_timber"
+type = "optional"
+versionRange = "[1.0.4,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.letsdoeverycompat]]
+modId = "farm_and_charm"
+type = "optional"
+versionRange = "[1.1.26,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[mixins]]
+config = "letsdoeverycompat.mixins.json"

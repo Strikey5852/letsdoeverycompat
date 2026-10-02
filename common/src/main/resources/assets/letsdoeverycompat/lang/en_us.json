@@ -1,0 +1,44 @@
+{
+  "block_type.furniture.bench": "%s Bench",
+  "block_type.furniture.desk": "%s Desk",
+  "block_type.furniture.desk_chair": "%s Desk Chair",
+  "block_type.furniture.mirror": "%s Mirror",
+  "block_type.furniture.shutter": "%s Shutter",
+  "block_type.furniture.cabinet": "%s Base Cabinet",
+  "block_type.furniture.clock": "%s Clock",
+  "block_type.furniture.grandfather_clock": "%s Grandfather Clock",
+  "block_type.furniture.dresser": "%s Dresser",
+  "block_type.furniture.wardrobe": "%s Wardrobe",
+
+  "block_type.vinery.wine_rack_small": "Small %s Wine Rack",
+  "block_type.vinery.wine_rack_mid": "%s Wine Rack",
+  "block_type.vinery.wine_rack_big": "Big %s Wine Rack",
+  "block_type.vinery.lattice": "%s Lattice",
+  "block_type.vinery.barrel": "%s Barrel",
+  "block_type.vinery.chair": "%s Chair",
+  "block_type.vinery.table": "%s Table",
+  "block_type.vinery.big_table": "%s Big Table",
+  "block_type.vinery.cabinet": "%s Cabinet",
+  "block_type.vinery.drawer": "%s Drawer",
+  "block_type.vinery.shelf": "%s Shelf",
+
+  "block_type.beachparty.bar": "%s Bar",
+  "block_type.beachparty.bar_stool": "%s Bar Stool",
+  "block_type.beachparty.chair": "%s Chair",
+  "block_type.beachparty.table": "%s Table",
+  "block_type.beachparty.cabinet": "%s Cabinet",
+
+  "block_type.candlelight.cabinet": "%s Cabinet",
+  "block_type.candlelight.drawer": "%s Drawer",
+  "block_type.candlelight.table": "%s Table",
+  "block_type.candlelight.chair": "%s Chair",
+  "block_type.candlelight.shelf": "%s Shelf",
+  "block_type.candlelight.big_table": "%s Big Table",
+
+  "block_type.meadow.cheese_rack": "%s Cheese Rack",
+  "block_type.meadow.bench": "%s Bench",
+  "block_type.meadow.wall_cabinet": "%s Wall Cabinet",
+
+  "block_type.hearth_and_timber.window": "%s Window",
+  "block_type.hearth_and_timber.window_pane": "%s Window Pane"
+}
