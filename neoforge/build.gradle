@@ -1,0 +1,101 @@
+import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
+import java.util.zip.ZipOutputStream
+
+plugins {
+    id 'com.gradleup.shadow'
+}
+
+architectury {
+    platformSetupLoomIde()
+    neoForge()
+}
+
+configurations {
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentNeoForge.extendsFrom common
+
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+
+    everycompNeoForge {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+}
+
+configurations.everycompNeoForge.dependencies.add(project.dependencies.create(
+        "net.mehvahdjukaar:everycomp-neoforge:$rootProject.everycomp_version:neoforge") { transitive = false })
+
+// everycomp's architectury.common.json is broken; neutralise it before loom reads the jar
+def everycompPatched = layout.buildDirectory.file('everycomp/everycomp-neoforge-patched.jar').get().asFile
+configurations.everycompNeoForge.resolve()
+def everycompNeoForgeJar = configurations.everycompNeoForge.singleFile
+if (!everycompPatched.exists() || everycompPatched.lastModified() < everycompNeoForgeJar.lastModified()) {
+    everycompPatched.parentFile.mkdirs()
+    ZipFile zin = new ZipFile(everycompNeoForgeJar)
+    ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(everycompPatched))
+    zin.entries().each { entry ->
+        zout.putNextEntry(new ZipEntry(entry.name))
+        if (entry.name == 'architectury.common.json') {
+            zout.write('{}'.bytes)
+        } else {
+            zout.write(zin.getInputStream(entry).readAllBytes())
+        }
+        zout.closeEntry()
+    }
+    zout.close()
+    zin.close()
+}
+
+dependencies {
+    neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
+    modImplementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
+
+    common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
+    shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
+
+    modLocalRuntime(files(everycompPatched))
+    modLocalRuntime("net.mehvahdjukaar:moonlight-neoforge:$rootProject.moonlight_version") { transitive = false }
+    modLocalRuntime("maven.modrinth:lets-do-furniture:$rootProject.furniture_version-neoforge") { transitive = false }
+    modLocalRuntime("maven.modrinth:lets-do-vinery:$rootProject.vinery_version-neoforge") { transitive = false }
+    modLocalRuntime("maven.modrinth:lets-do-beachparty:$rootProject.beachparty_version-neoforge") { transitive = false }
+    modLocalRuntime("maven.modrinth:lets-do-candlelight-farmcharm-compat:$rootProject.candlelight_version-neoforge") { transitive = false }
+    modLocalRuntime("maven.modrinth:lets-do-farm-charm:$rootProject.farmcharm_version-neoforge") { transitive = false }
+    modLocalRuntime("maven.modrinth:lets-do-meadow:$rootProject.meadow_version-neoforge") { transitive = false }
+    modLocalRuntime("maven.modrinth:lets-do-hearth-timber:$rootProject.hearth_and_timber_version-neoforge") { transitive = false }
+    modLocalRuntime("top.theillusivec4.curios:curios-neoforge:$rootProject.curios_version") { transitive = false }
+    modLocalRuntime("net.mehvahdjukaar:codecui-neoforge:$rootProject.codecui_version") { transitive = false }
+    // BOP + deps give everycomp a modded wood source to generate into
+    modLocalRuntime("maven.modrinth:biomes-o-plenty:$rootProject.bop_version-neoforge") { transitive = false }
+    modLocalRuntime("maven.modrinth:glitchcore:$rootProject.glitchcore_version-neoforge") { transitive = false }
+    modLocalRuntime("maven.modrinth:terrablender:$rootProject.terrablender_version-neoforge") { transitive = false }
+    modLocalRuntime("com.electronwill.night-config:core:$rootProject.nightconfig_version") { transitive = false }
+    modLocalRuntime("com.electronwill.night-config:toml:$rootProject.nightconfig_version") { transitive = false }
+    modLocalRuntime("net.jodah:typetools:$rootProject.typetools_version") { transitive = false }
+    modLocalRuntime("maven.modrinth:emi:$rootProject.emi_neoforge_version") { transitive = false }
+}
+
+processResources {
+    inputs.property 'version', project.version
+
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand version: inputs.properties.version
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier = 'dev-shadow'
+}
+
+remapJar {
+    inputFile.set shadowJar.archiveFile
+}

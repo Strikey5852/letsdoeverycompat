@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "letsdoeverycompat",
+  "version": "${version}",
+  "name": "[Let's Do] Every Compat",
+  "description": "Brings the furniture and decorative blocks of the Let's Do Collection into every wood type in the pack.",
+  "authors": [
+    "strikey"
+  ],
+  "contact": {
+    "sources": "https://github.com/Strikey5852/letsdoeverycompat"
+  },
+  "license": "GPL-3.0-only",
+  "icon": "assets/letsdoeverycompat/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.strikey.compat.fabric.LetsDoEveryCompatFabric"
+    ],
+    "client": [
+      "com.strikey.compat.fabric.client.LetsDoEveryCompatFabricClient"
+    ]
+  },
+  "mixins": [
+    "letsdoeverycompat.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "architectury": ">=13.0.11",
+    "fabric-api": "*",
+    "everycomp": ">=1.21-2.11.52",
+    "moonlight": ">=1.21.1-3.6.8"
+  },
+  "suggests": {
+    "furniture": ">=1.1.6",
+    "vinery": ">=1.5.4",
+    "beachparty": ">=2.1.5",
+    "candlelight": ">=2.1.13",
+    "meadow": ">=1.4.9",
+    "hearth_and_timber": ">=1.0.4",
+    "farm_and_charm": ">=1.1.26"
+  }
+}
