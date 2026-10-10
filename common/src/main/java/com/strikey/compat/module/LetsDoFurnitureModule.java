@@ -1,17 +1,17 @@
 package com.strikey.compat.module;
 
-import com.berksire.furniture.core.block.BenchBlock;
-import com.berksire.furniture.core.block.CabinetBlock;
-import com.berksire.furniture.core.block.ClockBlock;
-import com.berksire.furniture.core.block.DeskBlock;
-import com.berksire.furniture.core.block.DeskChairBlock;
-import com.berksire.furniture.core.block.DresserBlock;
-import com.berksire.furniture.core.block.GrandfatherClockBlock;
-import com.berksire.furniture.core.block.MirrorBlock;
-import com.berksire.furniture.core.block.ShutterBlock;
-import com.berksire.furniture.core.block.WardrobeBlock;
-import com.berksire.furniture.core.registry.EntityTypeRegistry;
-import com.berksire.furniture.core.registry.SoundRegistry;
+import net.satisfy.furniture.core.block.BenchBlock;
+import net.satisfy.furniture.core.block.CabinetBlock;
+import net.satisfy.furniture.core.block.ClockBlock;
+import net.satisfy.furniture.core.block.DeskBlock;
+import net.satisfy.furniture.core.block.DeskChairBlock;
+import net.satisfy.furniture.core.block.DresserBlock;
+import net.satisfy.furniture.core.block.GrandfatherClockBlock;
+import net.satisfy.furniture.core.block.MirrorBlock;
+import net.satisfy.foundation.block.ShutterBlock;
+import net.satisfy.foundation.block.WardrobeBlock;
+import net.satisfy.furniture.core.registry.EntityTypeRegistry;
+import net.satisfy.furniture.core.registry.SoundRegistry;
 import com.strikey.compat.LetsDoEveryCompat;
 import net.mehvahdjukaar.every_compat.api.RenderLayer;
 import net.mehvahdjukaar.every_compat.api.SimpleEntrySet;
@@ -190,7 +190,7 @@ public class LetsDoFurnitureModule extends EveryCompatModule {
 
         wardrobes = SimpleEntrySet.builder(WoodType.class, "wardrobe",
                         getModBlock("oak_wardrobe", WardrobeBlock.class), () -> VanillaWoodTypes.OAK,
-                        w -> new WardrobeBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD)))
+                        w -> new WardrobeBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD), EntityTypeRegistry.WARDROBE_BLOCK_ENTITY))
                 .addTextureM(modRes("block/oak_wardrobe_front_bottom_closed"), maskRes("block/ldf/masks/oak_wardrobe_front_bottom_closed_m"))
                 .addTextureM(modRes("block/oak_wardrobe_front_bottom_open"), maskRes("block/ldf/masks/oak_wardrobe_front_bottom_open_m"))
                 .addTextureM(modRes("block/oak_wardrobe_front_top_closed"), maskRes("block/ldf/masks/oak_wardrobe_front_top_closed_m"))

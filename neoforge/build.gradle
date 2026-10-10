@@ -66,6 +66,7 @@ dependencies {
     modLocalRuntime("net.mehvahdjukaar:moonlight-neoforge:$rootProject.moonlight_version") { transitive = false }
     modLocalRuntime("maven.modrinth:lets-do-furniture:$rootProject.furniture_version-neoforge") { transitive = false }
     modLocalRuntime("maven.modrinth:lets-do-vinery:$rootProject.vinery_version-neoforge") { transitive = false }
+    modLocalRuntime("net.satisfy.foundation:foundation-neoforge:$rootProject.foundation_version") { transitive = false }
     modLocalRuntime("maven.modrinth:lets-do-beachparty:$rootProject.beachparty_version-neoforge") { transitive = false }
     modLocalRuntime("maven.modrinth:lets-do-candlelight-farmcharm-compat:$rootProject.candlelight_version-neoforge") { transitive = false }
     modLocalRuntime("maven.modrinth:lets-do-farm-charm:$rootProject.farmcharm_version-neoforge") { transitive = false }

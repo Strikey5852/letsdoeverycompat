@@ -35,6 +35,7 @@ dependencies {
     modLocalRuntime("net.mehvahdjukaar:moonlight-fabric:$rootProject.moonlight_version") { transitive = false }
     modLocalRuntime("maven.modrinth:lets-do-furniture:$rootProject.furniture_version-fabric") { transitive = false }
     modLocalRuntime("maven.modrinth:lets-do-vinery:$rootProject.vinery_version-fabric") { transitive = false }
+    modLocalRuntime("net.satisfy.foundation:foundation-fabric:$rootProject.foundation_version") { transitive = false }
     modLocalRuntime("maven.modrinth:lets-do-beachparty:$rootProject.beachparty_version-fabric") { transitive = false }
     modLocalRuntime("maven.modrinth:lets-do-candlelight-farmcharm-compat:$rootProject.candlelight_version-fabric") { transitive = false }
     modLocalRuntime("maven.modrinth:lets-do-farm-charm:$rootProject.farmcharm_version-fabric") { transitive = false }

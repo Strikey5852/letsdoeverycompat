@@ -11,6 +11,7 @@ dependencies {
 
     compileOnly("maven.modrinth:lets-do-furniture:$rootProject.furniture_version-neoforge") { transitive = false }
     compileOnly("maven.modrinth:lets-do-vinery:$rootProject.vinery_version-neoforge") { transitive = false }
+    modCompileOnly("net.satisfy.foundation:foundation-common:$rootProject.foundation_version") { transitive = false }
     compileOnly("maven.modrinth:lets-do-beachparty:$rootProject.beachparty_version-neoforge") { transitive = false }
     compileOnly("maven.modrinth:lets-do-candlelight-farmcharm-compat:$rootProject.candlelight_version-neoforge") { transitive = false }
     compileOnly("maven.modrinth:lets-do-farm-charm:$rootProject.farmcharm_version-neoforge") { transitive = false }

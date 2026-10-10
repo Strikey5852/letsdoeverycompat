@@ -23,6 +23,7 @@ subprojects {
     }
 
     repositories {
+        maven { url = "https://raw.githubusercontent.com/Let-s-Do-Collection/Foundation/1.21.1/maven" }
         maven { url = 'https://registry.somethingcatchy.net/repository/maven-releases/' }
         mavenCentral()
         maven { url = 'https://api.modrinth.com/maven' }

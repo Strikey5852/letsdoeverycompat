@@ -52,14 +52,14 @@ side = "BOTH"
 [[dependencies.letsdoeverycompat]]
 modId = "furniture"
 type = "optional"
-versionRange = "[1.1.6,)"
+versionRange = "[1.1.7,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.letsdoeverycompat]]
 modId = "vinery"
 type = "optional"
-versionRange = "[1.5.4,)"
+versionRange = "[1.5.5,)"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -81,7 +81,7 @@ side = "BOTH"
 [[dependencies.letsdoeverycompat]]
 modId = "candlelight"
 type = "optional"
-versionRange = "[2.1.13,)"
+versionRange = "[2.1.14,)"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -95,7 +95,7 @@ side = "BOTH"
 [[dependencies.letsdoeverycompat]]
 modId = "farm_and_charm"
 type = "optional"
-versionRange = "[1.1.26,)"
+versionRange = "[1.1.27,)"
 ordering = "AFTER"
 side = "BOTH"
 
