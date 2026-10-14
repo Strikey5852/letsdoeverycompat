@@ -56,7 +56,7 @@ public class LetsDoMeadowModule extends EveryCompatModule {
                 .addModelTransform(t -> t.addModifier((s, id, wood) ->
                         s.replace("meadow:block/cheese_rack_side", LetsDoEveryCompat.MODID + ":block/ldm/"
                                 + wood.getNamespace() + "/" + wood.getTypeName() + "_cheese_rack_side")))
-                .addTile(EntityTypeRegistry.STORAGE_ENTITY)
+                .addTile(() -> EntityTypeRegistry.STORAGE_ENTITY.get())
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .setTab(tab)
                 .defaultRecipe()
@@ -84,7 +84,7 @@ public class LetsDoMeadowModule extends EveryCompatModule {
                 .addTextureMC(cabinetRes("block/oak_cabinet_front"), maskRes("block/ldc/masks/oak_cabinet_front_m"),
                         PaletteStrategies.MAIN_CHILD, "block/pine_cabinet_front_closed")
                 .addTextureC(cabinetRes("block/oak_cabinet_open"), "block/pine_cabinet_front_open")
-                .addTile(EntityTypeRegistry.CABINET_BLOCK_ENTITY)
+                .addTile(() -> EntityTypeRegistry.CABINET_BLOCK_ENTITY.get())
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .setTab(tab)
                 .defaultRecipe()

@@ -135,7 +135,7 @@ public class LetsDoHearthAndTimberModule extends EveryCompatModule {
                         getModBlock("oak_window_casing", WindowCasingBlock.class), oak,
                         w -> new WindowCasingBlock(Utils.copyPropertySafe(w.planks).noOcclusion()))
                 .addTexture(modRes("block/oak_window_casing"))
-                .addTile(EntityTypeRegistry.WINDOW_CASING_BLOCK_ENTITY)
+                .addTile(() -> EntityTypeRegistry.WINDOW_CASING_BLOCK_ENTITY.get())
                 .setRenderType(RenderLayer.CUTOUT)
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .setTab(tab)
