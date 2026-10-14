@@ -16,13 +16,17 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.PushReaction;
-import net.satisfy.candlelight.core.block.CabinetBlock;
-import net.satisfy.candlelight.core.block.LargeTableBlock;
-import net.satisfy.candlelight.core.block.ShelfBlock;
-import net.satisfy.candlelight.core.block.TableBlock;
+import net.satisfy.foundation.block.CabinetBlock;
+import net.satisfy.foundation.block.BigTableBlock;
+import net.satisfy.foundation.storage.WallShelfBlock;
+import net.satisfy.foundation.block.TableBlock;
 import net.satisfy.candlelight.core.registry.EntityTypeRegistry;
 import net.satisfy.candlelight.core.registry.SoundEventRegistry;
-import net.satisfy.farm_and_charm.core.block.ChairBlock;
+import net.satisfy.foundation.block.ChairBlock;
+import net.satisfy.candlelight.core.registry.StorageTypeRegistry;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.function.Supplier;
 
@@ -32,12 +36,15 @@ public class LetsDoCandlelightModule extends EveryCompatModule {
         return ResourceLocation.fromNamespaceAndPath(LetsDoEveryCompat.MODID, path);
     }
 
+    // mirrors candlelight's private SHELF_SHAPE
+    private static final VoxelShape SHELF_SHAPE = Shapes.or(Shapes.box(0, 0.1875, 0.625, 1, 0.3125, 1), Shapes.box(0, 0.125, 0.9375, 1, 0.1875, 1));
+
     public SimpleEntrySet<WoodType, CabinetBlock> cabinets;
     public SimpleEntrySet<WoodType, CabinetBlock> drawers;
     public SimpleEntrySet<WoodType, TableBlock> tables;
     public SimpleEntrySet<WoodType, ChairBlock> chairs;
-    public SimpleEntrySet<WoodType, ShelfBlock> shelves;
-    public SimpleEntrySet<WoodType, LargeTableBlock> bigTables;
+    public SimpleEntrySet<WoodType, WallShelfBlock> shelves;
+    public SimpleEntrySet<WoodType, BigTableBlock> bigTables;
 
     public LetsDoCandlelightModule(String modId) {
         super(modId, "ldc", LetsDoEveryCompat.MODID);
@@ -47,7 +54,7 @@ public class LetsDoCandlelightModule extends EveryCompatModule {
         cabinets = SimpleEntrySet.builder(WoodType.class, "cabinet",
                         getModBlock("oak_cabinet", CabinetBlock.class), oak,
                         w -> new CabinetBlock(Utils.copyPropertySafe(w.planks).strength(2.0F, 3.0F).sound(SoundType.WOOD),
-                                SoundEventRegistry.CABINET_OPEN.get(), SoundEventRegistry.CABINET_CLOSE.get()))
+                                EntityTypeRegistry.CABINET_BLOCK_ENTITY, SoundEventRegistry.CABINET_OPEN.get(), SoundEventRegistry.CABINET_CLOSE.get()))
                 .addTextureM(modRes("block/oak_cabinet_front"), maskRes("block/ldc/masks/oak_cabinet_front_m"))
                 .addTexture(modRes("block/oak_cabinet_side"))
                 .addTexture(modRes("block/oak_cabinet_top"))
@@ -64,7 +71,7 @@ public class LetsDoCandlelightModule extends EveryCompatModule {
         drawers = SimpleEntrySet.builder(WoodType.class, "drawer",
                         getModBlock("oak_drawer", CabinetBlock.class), oak,
                         w -> new CabinetBlock(Utils.copyPropertySafe(w.planks).strength(2.0F, 3.0F).sound(SoundType.WOOD),
-                                SoundEventRegistry.DRAWER_OPEN.get(), SoundEventRegistry.DRAWER_CLOSE.get()))
+                                EntityTypeRegistry.CABINET_BLOCK_ENTITY, SoundEventRegistry.DRAWER_OPEN.get(), SoundEventRegistry.DRAWER_CLOSE.get()))
                 .addTextureM(modRes("block/oak_drawer"), maskRes("block/ldc/masks/oak_drawer_m"))
                 .addTexture(modRes("block/oak_cabinet_side"))
                 .addTexture(modRes("block/oak_cabinet_top"))
@@ -110,8 +117,10 @@ public class LetsDoCandlelightModule extends EveryCompatModule {
         }
 
         shelves = SimpleEntrySet.builder(WoodType.class, "shelf",
-                        getModBlock("oak_shelf", ShelfBlock.class), oak,
-                        w -> new ShelfBlock(Utils.copyPropertySafe(w.planks).strength(2.0F, 3.0F).sound(SoundType.WOOD).noOcclusion()))
+                        getModBlock("oak_shelf", WallShelfBlock.class), oak,
+                        w -> new WallShelfBlock(Utils.copyPropertySafe(w.planks).strength(2.0F, 3.0F).sound(SoundType.WOOD).noOcclusion(),
+                                EntityTypeRegistry.STORAGE_BLOCK_ENTITY, StorageTypeRegistry.SHELF,
+                                stack -> stack.getItem() instanceof BlockItem, SHELF_SHAPE))
                 .addTexture(modRes("block/oak_table_connected"))
                 .addTextureM(modRes("item/oak_shelf"), maskRes("item/ldc/masks/oak_shelf_m"))
                 .addTile(EntityTypeRegistry.STORAGE_BLOCK_ENTITY)
@@ -124,8 +133,8 @@ public class LetsDoCandlelightModule extends EveryCompatModule {
         }
 
         bigTables = SimpleEntrySet.builder(WoodType.class, "big_table",
-                        getModBlock("oak_big_table", LargeTableBlock.class), oak,
-                        w -> new LargeTableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).strength(2.0F, 2.0F)
+                        getModBlock("oak_big_table", BigTableBlock.class), oak,
+                        w -> new BigTableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).strength(2.0F, 2.0F)
                                 .pushReaction(PushReaction.IGNORE)))
                 .addTextureM(modRes("block/oak_big_table"), maskRes("block/ldc/masks/oak_big_table_m"))
                 .addTextureM(modRes("item/oak_big_table"), maskRes("item/ldc/masks/oak_big_table_m"))

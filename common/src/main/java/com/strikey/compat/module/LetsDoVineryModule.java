@@ -21,18 +21,20 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.item.BlockItem;
+import net.satisfy.foundation.block.BigTableBlock;
+import net.satisfy.foundation.block.CabinetBlock;
+import net.satisfy.foundation.block.ChairBlock;
+import net.satisfy.foundation.storage.WallShelfBlock;
 import net.satisfy.vinery.core.block.BigBottleStorageBlock;
-import net.satisfy.vinery.core.block.BigTableBlock;
-import net.satisfy.vinery.core.block.CabinetBlock;
-import net.satisfy.vinery.core.block.ChairBlock;
+import net.satisfy.vinery.core.block.BottleStorageBlock;
 import net.satisfy.vinery.core.block.DarkCherryBarrelBlock;
-import net.satisfy.vinery.core.block.FourBottleStorageBlock;
 import net.satisfy.vinery.core.block.LatticeBlock;
-import net.satisfy.vinery.core.block.NineBottleStorageBlock;
-import net.satisfy.vinery.core.block.ShelfBlock;
 import net.satisfy.vinery.core.block.TableBlock;
 import net.satisfy.vinery.core.registry.EntityTypeRegistry;
 import net.satisfy.vinery.core.registry.SoundEventRegistry;
+import net.satisfy.vinery.core.registry.StorageTypeRegistry;
+import net.satisfy.vinery.core.registry.TagRegistry;
 
 import java.util.function.Supplier;
 
@@ -42,9 +44,9 @@ public class LetsDoVineryModule extends EveryCompatModule {
         return ResourceLocation.fromNamespaceAndPath(LetsDoEveryCompat.MODID, path);
     }
 
-    public final SimpleEntrySet<WoodType, FourBottleStorageBlock> wineRackSmall;
+    public final SimpleEntrySet<WoodType, BottleStorageBlock> wineRackSmall;
     public final SimpleEntrySet<WoodType, BigBottleStorageBlock> wineRackMid;
-    public final SimpleEntrySet<WoodType, NineBottleStorageBlock> wineRackBig;
+    public final SimpleEntrySet<WoodType, BottleStorageBlock> wineRackBig;
     public final SimpleEntrySet<WoodType, LatticeBlock> lattices;
     public final SimpleEntrySet<WoodType, DarkCherryBarrelBlock> barrels;
     // only present when vinery owns the shared piece
@@ -53,7 +55,7 @@ public class LetsDoVineryModule extends EveryCompatModule {
     public SimpleEntrySet<WoodType, BigTableBlock> bigTables;
     public SimpleEntrySet<WoodType, CabinetBlock> cabinets;
     public SimpleEntrySet<WoodType, CabinetBlock> drawers;
-    public SimpleEntrySet<WoodType, ShelfBlock> shelves;
+    public SimpleEntrySet<WoodType, WallShelfBlock> shelves;
 
     public LetsDoVineryModule(String modId) {
         super(modId, "ldv", LetsDoEveryCompat.MODID);
@@ -61,9 +63,9 @@ public class LetsDoVineryModule extends EveryCompatModule {
         Supplier<WoodType> darkCherry = WoodTypeRegistry.INSTANCE.makeFutureHolder(modRes("dark_cherry"));
 
         wineRackSmall = SimpleEntrySet.builder(WoodType.class, "wine_rack_small",
-                        getModBlock("oak_wine_rack_small", FourBottleStorageBlock.class), () -> VanillaWoodTypes.OAK,
-                        w -> new FourBottleStorageBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F)
-                                .sound(SoundType.WOOD).noOcclusion()))
+                        getModBlock("oak_wine_rack_small", BottleStorageBlock.class), () -> VanillaWoodTypes.OAK,
+                        w -> new BottleStorageBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F)
+                                .sound(SoundType.WOOD).noOcclusion(), BottleStorageBlock.Layout.FOUR))
                 // rack side gets its own name, else it'd overwrite the cabinet side
                 .addTextureC(modRes("block/oak_cabinet_side"), "block/oak_wine_rack_side")
                 .addTexture(modRes("block/oak_cabinet_top"))
@@ -76,9 +78,9 @@ public class LetsDoVineryModule extends EveryCompatModule {
         this.addEntry(wineRackSmall);
 
         wineRackBig = SimpleEntrySet.builder(WoodType.class, "wine_rack_big",
-                        getModBlock("oak_wine_rack_big", NineBottleStorageBlock.class), () -> VanillaWoodTypes.OAK,
-                        w -> new NineBottleStorageBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F)
-                                .sound(SoundType.WOOD).noOcclusion()))
+                        getModBlock("oak_wine_rack_big", BottleStorageBlock.class), () -> VanillaWoodTypes.OAK,
+                        w -> new BottleStorageBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F)
+                                .sound(SoundType.WOOD).noOcclusion(), BottleStorageBlock.Layout.NINE))
                 .addTextureC(modRes("block/oak_cabinet_side"), "block/oak_wine_rack_side")
                 .addTexture(modRes("block/oak_cabinet_top"))
                 .addModelTransform(t -> t.replaceString("cabinet_side", "wine_rack_side"))
@@ -157,8 +159,6 @@ public class LetsDoVineryModule extends EveryCompatModule {
                             w -> new BigTableBlock(BlockBehaviour.Properties.of().strength(2.0F, 2.0F)
                                     .pushReaction(PushReaction.IGNORE)))
                     .addTextureM(modRes("block/dark_cherry_big_table"), maskRes("block/ldv/masks/dark_cherry_big_table_m"))
-                    .addTexture(modRes("block/dark_cherry_big_table_side"))
-                    .addTexture(modRes("block/stripped_dark_cherry_log_side"))
                     .addTextureM(modRes("item/dark_cherry_big_table"), maskRes("item/ldv/masks/dark_cherry_big_table_m"))
                     .copyParentDrop()
                     .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
@@ -173,7 +173,7 @@ public class LetsDoVineryModule extends EveryCompatModule {
             cabinets = SimpleEntrySet.builder(WoodType.class, "cabinet",
                             getModBlock("dark_cherry_cabinet", CabinetBlock.class), darkCherry,
                             w -> new CabinetBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD),
-                                    SoundEventRegistry.CABINET_OPEN.get(), SoundEventRegistry.CABINET_CLOSE.get()))
+                                    EntityTypeRegistry.CABINET_BLOCK_ENTITY, SoundEventRegistry.CABINET_OPEN.get(), SoundEventRegistry.CABINET_CLOSE.get()))
                     .addTextureM(modRes("block/dark_cherry_cabinet_front"), maskRes("block/ldv/masks/dark_cherry_cabinet_front_m"))
                     .addTextureM(modRes("block/dark_cherry_cabinet_front_open"), maskRes("block/ldv/masks/dark_cherry_cabinet_front_open_m"))
                     .addTexture(modRes("block/dark_cherry_cabinet_side"))
@@ -190,7 +190,7 @@ public class LetsDoVineryModule extends EveryCompatModule {
             drawers = SimpleEntrySet.builder(WoodType.class, "drawer",
                             getModBlock("dark_cherry_drawer", CabinetBlock.class), darkCherry,
                             w -> new CabinetBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD),
-                                    SoundEventRegistry.DRAWER_OPEN.get(), SoundEventRegistry.DRAWER_CLOSE.get()))
+                                    EntityTypeRegistry.CABINET_BLOCK_ENTITY, SoundEventRegistry.DRAWER_OPEN.get(), SoundEventRegistry.DRAWER_CLOSE.get()))
                     .addTextureM(modRes("block/dark_cherry_drawer_front"), maskRes("block/ldv/masks/dark_cherry_drawer_front_m"))
                     .addTextureM(modRes("block/dark_cherry_cabinet_front_open"), maskRes("block/ldv/masks/dark_cherry_cabinet_front_open_m"))
                     .addTexture(modRes("block/dark_cherry_drawer_side"))
@@ -206,8 +206,10 @@ public class LetsDoVineryModule extends EveryCompatModule {
         // shares the racks' BE; item sprite needs its own texture
         if (PieceOwnership.owns("vinery", "shelf")) {
             shelves = SimpleEntrySet.builder(WoodType.class, "shelf",
-                            getModBlock("dark_cherry_shelf", ShelfBlock.class), darkCherry,
-                            w -> new ShelfBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD).noOcclusion()))
+                            getModBlock("dark_cherry_shelf", WallShelfBlock.class), darkCherry,
+                            w -> new WallShelfBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD).noOcclusion(),
+                                    EntityTypeRegistry.STORAGE_ENTITY, StorageTypeRegistry.SHELF,
+                                    stack -> !(stack.getItem() instanceof BlockItem) || stack.is(TagRegistry.IGNORE_BLOCK_ITEM)))
                     .addTexture(modRes("block/dark_cherry_drawer_top"))
                     .addTextureM(modRes("item/dark_cherry_shelf"), maskRes("item/ldv/masks/dark_cherry_shelf_m"))
                     .addTile(EntityTypeRegistry.STORAGE_ENTITY)
