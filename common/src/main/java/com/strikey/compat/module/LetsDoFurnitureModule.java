@@ -103,6 +103,7 @@ public class LetsDoFurnitureModule extends EveryCompatModule {
                 .addTextureM(modRes("block/oak_mirror_middle"), maskRes("block/ldf/masks/oak_mirror_middle_m"))
                 .addTextureM(modRes("block/oak_mirror_bottom"), maskRes("block/ldf/masks/oak_mirror_bottom_m"))
                 .addTextureM(modRes("item/oak_mirror"), maskRes("item/ldf/masks/oak_mirror_m"))
+                .addTile(() -> EntityTypeRegistry.MIRROR_BLOCK_ENTITY.get())
                 .addTag(BlockTags.MINEABLE_WITH_AXE, Registries.BLOCK)
                 .setTab(tab)
                 .defaultRecipe()

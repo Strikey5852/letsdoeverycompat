@@ -36,7 +36,7 @@ side = "BOTH"
 [[dependencies.letsdoeverycompat]]
 modId = "everycomp"
 type = "required"
-versionRange = "[1.21-2.11.52,)"
+versionRange = "[1.21-2.11.54,)"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -44,7 +44,7 @@ side = "BOTH"
 [[dependencies.letsdoeverycompat]]
 modId = "moonlight"
 type = "required"
-versionRange = "[1.21.1-3.6.8,)"
+versionRange = "[1.21.1-3.7.2,)"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -52,14 +52,14 @@ side = "BOTH"
 [[dependencies.letsdoeverycompat]]
 modId = "furniture"
 type = "optional"
-versionRange = "[1.1.7,)"
+versionRange = "[1.1.10,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.letsdoeverycompat]]
 modId = "vinery"
 type = "optional"
-versionRange = "[1.5.5,)"
+versionRange = "[1.5.6,)"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -73,7 +73,7 @@ side = "BOTH"
 [[dependencies.letsdoeverycompat]]
 modId = "meadow"
 type = "optional"
-versionRange = "[1.4.9,)"
+versionRange = "[1.4.10,)"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -81,21 +81,21 @@ side = "BOTH"
 [[dependencies.letsdoeverycompat]]
 modId = "candlelight"
 type = "optional"
-versionRange = "[2.1.14,)"
+versionRange = "[2.1.15,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.letsdoeverycompat]]
 modId = "hearth_and_timber"
 type = "optional"
-versionRange = "[1.0.4,)"
+versionRange = "[1.0.5,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.letsdoeverycompat]]
 modId = "farm_and_charm"
 type = "optional"
-versionRange = "[1.1.27,)"
+versionRange = "[1.1.29,)"
 ordering = "AFTER"
 side = "BOTH"
 

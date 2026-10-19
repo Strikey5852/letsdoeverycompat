@@ -18,9 +18,9 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.satisfy.meadow.core.block.BenchBlock;
-import net.satisfy.meadow.core.block.CabinetBlock;
 import net.satisfy.meadow.core.block.CheeseRackBlock;
+import net.satisfy.meadow.core.block.PineWallCabinetBlock;
+import net.satisfy.meadow.core.block.SeatBenchBlock;
 import net.satisfy.meadow.core.registry.EntityTypeRegistry;
 
 import java.util.function.Supplier;
@@ -37,8 +37,8 @@ public class LetsDoMeadowModule extends EveryCompatModule {
     }
 
     public final SimpleEntrySet<WoodType, CheeseRackBlock> cheeseRacks;
-    public final SimpleEntrySet<WoodType, BenchBlock> benches;
-    public final SimpleEntrySet<WoodType, CabinetBlock> wallCabinets;
+    public final SimpleEntrySet<WoodType, SeatBenchBlock> benches;
+    public final SimpleEntrySet<WoodType, PineWallCabinetBlock> wallCabinets;
 
     public LetsDoMeadowModule(String modId) {
         super(modId, "ldm", LetsDoEveryCompat.MODID);
@@ -64,8 +64,8 @@ public class LetsDoMeadowModule extends EveryCompatModule {
         this.addEntry(cheeseRacks);
 
         benches = SimpleEntrySet.builder(WoodType.class, "bench",
-                        getModBlock("pine_bench", BenchBlock.class), pine,
-                        w -> new BenchBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD)))
+                        getModBlock("pine_bench", SeatBenchBlock.class), pine,
+                        w -> new SeatBenchBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD)))
                 .addTexture(modRes("block/pine_log_side"))
                 .addTexture(modRes("block/pine_log_top"))
                 .addTexture(modRes("block/stripped_pine_log_side"))
@@ -76,10 +76,10 @@ public class LetsDoMeadowModule extends EveryCompatModule {
         this.addEntry(benches);
 
         wallCabinets = SimpleEntrySet.builder(WoodType.class, "wall_cabinet",
-                        getModBlock("pine_wall_cabinet", CabinetBlock.class), pine,
-                        w -> new CabinetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS),
-                                () -> SoundEvents.WOODEN_TRAPDOOR_OPEN, () -> SoundEvents.WOODEN_TRAPDOOR_CLOSE,
-                                () -> true))
+                        getModBlock("pine_wall_cabinet", PineWallCabinetBlock.class), pine,
+                        w -> new PineWallCabinetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS),
+                                () -> EntityTypeRegistry.CABINET_BLOCK_ENTITY.get(),
+                                SoundEvents.WOODEN_TRAPDOOR_OPEN, SoundEvents.WOODEN_TRAPDOOR_CLOSE))
                 .addTexture(modRes("block/pine_wall_cabinet"))
                 .addTextureMC(cabinetRes("block/oak_cabinet_front"), maskRes("block/ldc/masks/oak_cabinet_front_m"),
                         PaletteStrategies.MAIN_CHILD, "block/pine_cabinet_front_closed")
