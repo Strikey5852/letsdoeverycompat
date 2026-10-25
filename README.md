@@ -31,3 +31,7 @@ Generates wood variants for any of the following installed mods:
 ## License
 
 This project is licensed under the [GNU General Public License v3.0](LICENSE).
+
+## Contact
+
+I'm open to modding commissions. Contact me on Discord at **strikey5852** or join my [server](https://discord.com/invite/JWjzKcjCnS).
